@@ -21,6 +21,7 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
   const [rows, setRows] = useState<Record<string, unknown>[]>([])
   const [mappings, setMappings] = useState<ColumnMapping[]>([])
   const [summary, setSummary] = useState<ImportSummary | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   const existingPlayers = usePlayerStore((s) => s.players)
   const importPlayers = usePlayerStore((s) => s.importPlayers)
@@ -52,9 +53,16 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
     setStep('confirm')
   }
 
-  function handleConfirmImport() {
-    importPlayers(normalizedInputs)
-    setStep('done')
+  async function handleConfirmImport() {
+    setIsSaving(true)
+    try {
+      await importPlayers(normalizedInputs)
+      setStep('done')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e))
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -125,9 +133,10 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
               </button>
               <button
                 onClick={handleConfirmImport}
-                className="rounded-md bg-purple-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-purple-700"
+                disabled={isSaving}
+                className="rounded-md bg-purple-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-60"
               >
-                Confirm import
+                {isSaving ? 'Saving…' : 'Confirm import'}
               </button>
             </div>
           </>

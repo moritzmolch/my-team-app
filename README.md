@@ -56,5 +56,5 @@ data.
 ## Project status
 
 Building incrementally by milestone; see the architecture plan for the full
-roadmap. Currently: **M2 — player import (CSV/YAML/JSON) with column
-mapping.**
+roadmap. Currently: **M3 — IndexedDB persistence, so imported/edited data
+survives a reload.**

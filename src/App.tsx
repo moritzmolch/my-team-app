@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { DashboardPage } from './pages/DashboardPage'
 import { PlayersPage } from './pages/PlayersPage'
 import { SchedulePage } from './pages/SchedulePage'
+import { hydratePlayerStore, usePlayerStore } from './store/usePlayerStore'
 
 const NAV_LINKS = [
   { to: '/', label: 'Players', end: true },
@@ -18,6 +20,12 @@ function navLinkClassName({ isActive }: { isActive: boolean }) {
 }
 
 function App() {
+  const isHydrated = usePlayerStore((s) => s.isHydrated)
+
+  useEffect(() => {
+    hydratePlayerStore()
+  }, [])
+
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-4 py-6">
       <nav className="mb-6 flex gap-2">
@@ -27,11 +35,15 @@ function App() {
           </NavLink>
         ))}
       </nav>
-      <Routes>
-        <Route path="/" element={<PlayersPage />} />
-        <Route path="/schedule" element={<SchedulePage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-      </Routes>
+      {isHydrated ? (
+        <Routes>
+          <Route path="/" element={<PlayersPage />} />
+          <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+        </Routes>
+      ) : (
+        <p className="text-neutral-500 dark:text-neutral-400">Loading…</p>
+      )}
     </div>
   )
 }
