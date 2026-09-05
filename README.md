@@ -55,6 +55,17 @@ league with the dropdowns above it. Try `sample-data/games.csv`, which
 updates one of the built-in sample games and adds two new ones (including a
 `Referee` column not present in the built-in data).
 
+## Squad dashboard
+
+Pick a game on the Dashboard page, then drag players from **Available
+players** onto the court to give them a position — as a formation board
+split into **Angriff** (attack, 6 outfield positions) and **Verteidigung**
+(defense, all 7 including the goalkeeper). Every player needs a position in
+both halves, and they can be different — a player missing one is ringed
+amber. Drag a placed player onto another spot to move or swap them, or drag
+them back onto the pool to remove them from the squad entirely. Each game
+keeps its own squad, saved as you go.
+
 ## Backup
 
 Because all data lives in your browser's IndexedDB (no server), use the
@@ -65,4 +76,5 @@ data.
 ## Project status
 
 Building incrementally by milestone; see the architecture plan for the full
-roadmap. Currently: **M4 — game schedule import and team/league filters.**
+roadmap. Currently: **squad dashboard — formation board with attack/defense
+positions.**
