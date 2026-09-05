@@ -1,6 +1,7 @@
 import Dexie, { type Table } from 'dexie'
 import type { Game } from '../../types/game'
 import type { Player } from '../../types/player'
+import type { Squad } from '../../types/squad'
 
 /**
  * The durable local store. Everything here lives in the browser's
@@ -9,6 +10,7 @@ import type { Player } from '../../types/player'
 export class AppDatabase extends Dexie {
   players!: Table<Player, string>
   games!: Table<Game, string>
+  squads!: Table<Squad, string>
 
   constructor() {
     super('handball-team-app')
@@ -19,6 +21,11 @@ export class AppDatabase extends Dexie {
     this.version(2).stores({
       players: 'id, externalKey, jerseyNumber, position',
       games: 'id, externalKey, team, league, date',
+    })
+    this.version(3).stores({
+      players: 'id, externalKey, jerseyNumber, position',
+      games: 'id, externalKey, team, league, date',
+      squads: 'id, gameId',
     })
   }
 }

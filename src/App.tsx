@@ -5,6 +5,7 @@ import { PlayersPage } from './pages/PlayersPage'
 import { SchedulePage } from './pages/SchedulePage'
 import { hydrateGameStore, useGameStore } from './store/useGameStore'
 import { hydratePlayerStore, usePlayerStore } from './store/usePlayerStore'
+import { hydrateSquadStore, useSquadStore } from './store/useSquadStore'
 
 const NAV_LINKS = [
   { to: '/', label: 'Players', end: true },
@@ -23,11 +24,13 @@ function navLinkClassName({ isActive }: { isActive: boolean }) {
 function App() {
   const isPlayersHydrated = usePlayerStore((s) => s.isHydrated)
   const isGamesHydrated = useGameStore((s) => s.isHydrated)
-  const isHydrated = isPlayersHydrated && isGamesHydrated
+  const isSquadsHydrated = useSquadStore((s) => s.isHydrated)
+  const isHydrated = isPlayersHydrated && isGamesHydrated && isSquadsHydrated
 
   useEffect(() => {
     hydratePlayerStore()
     hydrateGameStore()
+    hydrateSquadStore()
   }, [])
 
   return (
