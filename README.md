@@ -55,6 +55,13 @@ league with the dropdowns above it. Try `sample-data/games.csv`, which
 updates one of the built-in sample games and adds two new ones (including a
 `Referee` column not present in the built-in data).
 
+## Squad dashboard
+
+Pick a game on the Dashboard page, then drag players from **Available
+players** into the **Squad** list — or drag a squad player back onto the
+pool (or click ✕) to remove them, and drag within the squad list to
+reorder. Each game keeps its own squad, saved as you go.
+
 ## Backup
 
 Because all data lives in your browser's IndexedDB (no server), use the
@@ -65,4 +72,4 @@ data.
 ## Project status
 
 Building incrementally by milestone; see the architecture plan for the full
-roadmap. Currently: **M4 — game schedule import and team/league filters.**
+roadmap. Currently: **M5 — squad dashboard, roster mode (drag-and-drop).**
