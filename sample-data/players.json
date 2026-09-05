@@ -1,0 +1,16 @@
+{
+  "players": [
+    {
+      "name": "Nora Klein",
+      "jerseyNumber": 11,
+      "position": "RB",
+      "strengths": "long throws, defense"
+    },
+    {
+      "name": "Clara Vogel",
+      "jerseyNumber": 22,
+      "position": "GK",
+      "weaknesses": "still building match experience"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { attributeLabel } from '../../lib/normalize/slugify'
 import type { Player } from '../../types/player'
 
 const POSITION_LABELS: Record<string, string> = {
@@ -34,7 +35,7 @@ export function PlayerCard({ player }: { player: Player }) {
         <dl className="mt-1 flex flex-col gap-1 text-sm">
           {attributeEntries.map(([key, value]) => (
             <div key={key} className="flex gap-1">
-              <dt className="capitalize text-neutral-500 dark:text-neutral-400">{key}:</dt>
+              <dt className="text-neutral-500 dark:text-neutral-400">{attributeLabel(key)}:</dt>
               <dd className="text-neutral-700 dark:text-neutral-300">{String(value)}</dd>
             </div>
           ))}

@@ -1,0 +1,10 @@
+# Top-level array is supported directly (no wrapping key required).
+- name: Sofia Weber
+  jerseyNumber: 4
+  position: CB
+  strengths: game vision, 9m shot
+  leagueExperience: 6 seasons
+- name: Paula Richter
+  jerseyNumber: 15
+  position: LB
+  strengths: long-range shot
