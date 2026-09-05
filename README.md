@@ -32,6 +32,20 @@ by hand, anything — in a freeform `attributes` bag. This means adding a new
 column to your source CSV/YAML/JSON file and re-importing never requires a
 schema change.
 
+## Importing players
+
+Click **Import players** on the Players page and pick (or drag in) a CSV,
+YAML, or JSON file. Known columns (name, jersey number, position, photo URL)
+are auto-detected; anything else becomes a custom attribute — review and
+adjust the mapping before confirming. Re-importing matches existing players
+by jersey number (or name, if there's no number) and merges in changes
+without deleting attributes you've entered by hand.
+
+Try it with the fixtures in `sample-data/` (`players.csv`, `players.yaml`,
+`players.json`) — each updates some of the built-in sample players and adds
+a new one, and `players.csv` introduces a `Preferred Foot` column that isn't
+in the built-in data, to demonstrate adding a field later.
+
 ## Backup
 
 Because all data lives in your browser's IndexedDB (no server), use the
@@ -42,4 +56,5 @@ data.
 ## Project status
 
 Building incrementally by milestone; see the architecture plan for the full
-roadmap. Currently: **M1 — scaffold + static player list.**
+roadmap. Currently: **M2 — player import (CSV/YAML/JSON) with column
+mapping.**
