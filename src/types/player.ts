@@ -1,5 +1,4 @@
-/** Value type allowed inside a Player's freeform attributes bag. */
-export type AttributeValue = string | number | boolean | null
+import type { AttributeValue } from './attributes'
 
 /** Handball outfield/goalkeeper positions. */
 export type HandballPosition = 'GK' | 'LW' | 'RW' | 'LB' | 'CB' | 'RB' | 'PV'

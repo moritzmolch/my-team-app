@@ -1,0 +1,77 @@
+import type { Game } from '../types/game'
+
+/**
+ * Static sample data, seeded into IndexedDB on a genuinely first run.
+ * Spans two teams and a few leagues so the team/league filters have
+ * something to filter.
+ */
+export const sampleGames: Game[] = [
+  {
+    id: 'g1',
+    externalKey: '2026-09-12::tsv rot-weiß',
+    date: '2026-09-12',
+    opponent: 'TSV Rot-Weiß',
+    team: 'Damen 1',
+    league: 'Landesliga',
+    homeAway: 'home',
+    venue: 'Sporthalle Ost',
+    attributes: {},
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    source: 'manual',
+  },
+  {
+    id: 'g2',
+    externalKey: '2026-09-19::hsg bergstadt',
+    date: '2026-09-19',
+    opponent: 'HSG Bergstadt',
+    team: 'Damen 1',
+    league: 'Landesliga',
+    homeAway: 'away',
+    attributes: {},
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    source: 'manual',
+  },
+  {
+    id: 'g3',
+    externalKey: '2026-09-26::sv talblick',
+    date: '2026-09-26',
+    opponent: 'SV Talblick',
+    team: 'Damen 1',
+    league: 'Pokal',
+    homeAway: 'home',
+    venue: 'Sporthalle Ost',
+    attributes: {},
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    source: 'manual',
+  },
+  {
+    id: 'g4',
+    externalKey: '2026-09-13::tus waldheim',
+    date: '2026-09-13',
+    opponent: 'TuS Waldheim',
+    team: 'Damen 2',
+    league: 'Kreisliga',
+    homeAway: 'away',
+    attributes: {},
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    source: 'manual',
+  },
+  {
+    id: 'g5',
+    externalKey: '2026-09-27::tv nordstadt',
+    date: '2026-09-27',
+    opponent: 'TV Nordstadt',
+    team: 'Damen 2',
+    league: 'Kreisliga',
+    homeAway: 'home',
+    venue: 'Sporthalle West',
+    attributes: {},
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    source: 'manual',
+  },
+]

@@ -1,5 +1,7 @@
-import type { AttributeValue, HandballPosition } from '../../types/player'
-import type { ColumnMapping } from '../../types/import'
+import type { AttributeValue } from '../../types/attributes'
+import type { HandballPosition } from '../../types/player'
+import type { ColumnMapping, PlayerFieldTarget } from '../../types/import'
+import { isEmpty, toAttributeValue } from './rowValues'
 import { slugify } from './slugify'
 
 const VALID_POSITIONS: HandballPosition[] = ['GK', 'LW', 'RW', 'LB', 'CB', 'RB', 'PV']
@@ -15,20 +17,9 @@ export interface NormalizedPlayerInput {
   attributes: Record<string, AttributeValue>
 }
 
-function toAttributeValue(value: unknown): AttributeValue {
-  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-    return value
-  }
-  return String(value)
-}
-
-function isEmpty(value: unknown): boolean {
-  return value === undefined || value === null || value === ''
-}
-
 export function normalizeRow(
   row: Record<string, unknown>,
-  mappings: ColumnMapping[],
+  mappings: ColumnMapping<PlayerFieldTarget>[],
 ): NormalizedPlayerInput {
   const attributes: Record<string, AttributeValue> = {}
   let name = ''

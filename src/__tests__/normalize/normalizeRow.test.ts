@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import type { ColumnMapping } from '../../types/import'
+import type { ColumnMapping, PlayerFieldTarget } from '../../types/import'
 import { normalizeRow } from '../../lib/normalize/normalizeRow'
 
-const mappings: ColumnMapping[] = [
+const mappings: ColumnMapping<PlayerFieldTarget>[] = [
   { sourceKey: 'Name', target: 'name', attributeKey: 'name' },
   { sourceKey: 'Jersey', target: 'jerseyNumber', attributeKey: 'jersey' },
   { sourceKey: 'Position', target: 'position', attributeKey: 'position' },

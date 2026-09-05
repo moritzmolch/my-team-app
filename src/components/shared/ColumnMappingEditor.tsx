@@ -1,22 +1,24 @@
-import type { ColumnMapping, PlayerFieldTarget } from '../../types/import'
+import type { ColumnMapping } from '../../types/import'
 
-const TARGET_OPTIONS: { value: PlayerFieldTarget | 'attribute' | 'ignore'; label: string }[] = [
-  { value: 'name', label: 'Name' },
-  { value: 'jerseyNumber', label: 'Jersey number' },
-  { value: 'position', label: 'Position' },
-  { value: 'photoUrl', label: 'Photo URL' },
-  { value: 'attribute', label: 'Custom attribute' },
-  { value: 'ignore', label: 'Ignore this column' },
-]
-
-interface ColumnMappingEditorProps {
-  mappings: ColumnMapping[]
-  sampleRow?: Record<string, unknown>
-  onChange: (mappings: ColumnMapping[]) => void
+interface TargetOption<TField extends string> {
+  value: TField | 'attribute' | 'ignore'
+  label: string
 }
 
-export function ColumnMappingEditor({ mappings, sampleRow, onChange }: ColumnMappingEditorProps) {
-  function updateMapping(index: number, patch: Partial<ColumnMapping>) {
+interface ColumnMappingEditorProps<TField extends string> {
+  mappings: ColumnMapping<TField>[]
+  targetOptions: TargetOption<TField>[]
+  sampleRow?: Record<string, unknown>
+  onChange: (mappings: ColumnMapping<TField>[]) => void
+}
+
+export function ColumnMappingEditor<TField extends string>({
+  mappings,
+  targetOptions,
+  sampleRow,
+  onChange,
+}: ColumnMappingEditorProps<TField>) {
+  function updateMapping(index: number, patch: Partial<ColumnMapping<TField>>) {
     onChange(mappings.map((m, i) => (i === index ? { ...m, ...patch } : m)))
   }
 
@@ -44,11 +46,11 @@ export function ColumnMappingEditor({ mappings, sampleRow, onChange }: ColumnMap
                 <select
                   value={mapping.target}
                   onChange={(e) =>
-                    updateMapping(index, { target: e.target.value as ColumnMapping['target'] })
+                    updateMapping(index, { target: e.target.value as ColumnMapping<TField>['target'] })
                   }
                   className="rounded border border-neutral-300 bg-white px-2 py-1 text-sm dark:border-neutral-700 dark:bg-neutral-950"
                 >
-                  {TARGET_OPTIONS.map((opt) => (
+                  {targetOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
