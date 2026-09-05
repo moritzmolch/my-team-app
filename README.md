@@ -46,6 +46,15 @@ Try it with the fixtures in `sample-data/` (`players.csv`, `players.yaml`,
 a new one, and `players.csv` introduces a `Preferred Foot` column that isn't
 in the built-in data, to demonstrate adding a field later.
 
+## Schedule
+
+The Schedule page works the same way: **Import games** accepts a CSV, YAML,
+or JSON file with the same reviewable column-mapping flow, matching
+existing games by date + opponent on re-import. Filter the list by team or
+league with the dropdowns above it. Try `sample-data/games.csv`, which
+updates one of the built-in sample games and adds two new ones (including a
+`Referee` column not present in the built-in data).
+
 ## Backup
 
 Because all data lives in your browser's IndexedDB (no server), use the
@@ -56,5 +65,4 @@ data.
 ## Project status
 
 Building incrementally by milestone; see the architecture plan for the full
-roadmap. Currently: **M3 — IndexedDB persistence, so imported/edited data
-survives a reload.**
+roadmap. Currently: **M4 — game schedule import and team/league filters.**

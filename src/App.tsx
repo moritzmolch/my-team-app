@@ -3,6 +3,7 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import { DashboardPage } from './pages/DashboardPage'
 import { PlayersPage } from './pages/PlayersPage'
 import { SchedulePage } from './pages/SchedulePage'
+import { hydrateGameStore, useGameStore } from './store/useGameStore'
 import { hydratePlayerStore, usePlayerStore } from './store/usePlayerStore'
 
 const NAV_LINKS = [
@@ -20,10 +21,13 @@ function navLinkClassName({ isActive }: { isActive: boolean }) {
 }
 
 function App() {
-  const isHydrated = usePlayerStore((s) => s.isHydrated)
+  const isPlayersHydrated = usePlayerStore((s) => s.isHydrated)
+  const isGamesHydrated = useGameStore((s) => s.isHydrated)
+  const isHydrated = isPlayersHydrated && isGamesHydrated
 
   useEffect(() => {
     hydratePlayerStore()
+    hydrateGameStore()
   }, [])
 
   return (

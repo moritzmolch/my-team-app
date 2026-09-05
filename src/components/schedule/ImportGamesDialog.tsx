@@ -1,30 +1,30 @@
 import { useMemo, useState } from 'react'
+import { GAME_FIELD_SYNONYMS, GAME_TARGET_OPTIONS, suggestColumnMappings } from '../../lib/normalize/mapColumns'
+import { normalizeGameRow } from '../../lib/normalize/normalizeGameRow'
+import { upsertGames } from '../../lib/normalize/upsertGames'
+import { parseFile } from '../../lib/parsers/parseFile'
+import { useGameStore } from '../../store/useGameStore'
+import type { ColumnMapping, GameFieldTarget, ImportSummary } from '../../types/import'
 import { ColumnMappingEditor } from '../shared/ColumnMappingEditor'
 import { FileDropZone } from '../shared/FileDropZone'
-import type { ColumnMapping, ImportSummary, PlayerFieldTarget } from '../../types/import'
-import { PLAYER_FIELD_SYNONYMS, PLAYER_TARGET_OPTIONS, suggestColumnMappings } from '../../lib/normalize/mapColumns'
-import { normalizeRow } from '../../lib/normalize/normalizeRow'
-import { upsertPlayers } from '../../lib/normalize/upsertPlayers'
-import { parseFile } from '../../lib/parsers/parseFile'
-import { usePlayerStore } from '../../store/usePlayerStore'
 
 type Step = 'pick' | 'map' | 'confirm' | 'done'
 
-interface ImportPlayersDialogProps {
+interface ImportGamesDialogProps {
   onClose: () => void
 }
 
-export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
+export function ImportGamesDialog({ onClose }: ImportGamesDialogProps) {
   const [step, setStep] = useState<Step>('pick')
   const [error, setError] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string>('')
   const [rows, setRows] = useState<Record<string, unknown>[]>([])
-  const [mappings, setMappings] = useState<ColumnMapping<PlayerFieldTarget>[]>([])
+  const [mappings, setMappings] = useState<ColumnMapping<GameFieldTarget>[]>([])
   const [summary, setSummary] = useState<ImportSummary | null>(null)
   const [isSaving, setIsSaving] = useState(false)
 
-  const existingPlayers = usePlayerStore((s) => s.players)
-  const importPlayers = usePlayerStore((s) => s.importPlayers)
+  const existingGames = useGameStore((s) => s.games)
+  const importGames = useGameStore((s) => s.importGames)
 
   async function handleFile(file: File) {
     setError(null)
@@ -35,7 +35,7 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
       }
       setFileName(file.name)
       setRows(parsedRows)
-      setMappings(suggestColumnMappings(Object.keys(parsedRows[0]), PLAYER_FIELD_SYNONYMS))
+      setMappings(suggestColumnMappings(Object.keys(parsedRows[0]), GAME_FIELD_SYNONYMS))
       setStep('map')
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
@@ -43,12 +43,12 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
   }
 
   const normalizedInputs = useMemo(
-    () => rows.map((row) => normalizeRow(row, mappings)),
+    () => rows.map((row) => normalizeGameRow(row, mappings)),
     [rows, mappings],
   )
 
   function handleReviewImport() {
-    const preview = upsertPlayers(existingPlayers, normalizedInputs)
+    const preview = upsertGames(existingGames, normalizedInputs)
     setSummary(preview)
     setStep('confirm')
   }
@@ -56,7 +56,7 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
   async function handleConfirmImport() {
     setIsSaving(true)
     try {
-      await importPlayers(normalizedInputs)
+      await importGames(normalizedInputs)
       setStep('done')
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
@@ -69,7 +69,7 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="flex max-h-[85vh] w-full max-w-2xl flex-col gap-4 overflow-y-auto rounded-xl bg-white p-6 shadow-xl dark:bg-neutral-900">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Import players</h2>
+          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Import games</h2>
           <button
             onClick={onClose}
             className="rounded px-2 py-1 text-sm text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"
@@ -94,7 +94,7 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
             </p>
             <ColumnMappingEditor
               mappings={mappings}
-              targetOptions={PLAYER_TARGET_OPTIONS}
+              targetOptions={GAME_TARGET_OPTIONS}
               sampleRow={rows[0]}
               onChange={setMappings}
             />
@@ -118,14 +118,14 @@ export function ImportPlayersDialog({ onClose }: ImportPlayersDialogProps) {
         {step === 'confirm' && summary && (
           <>
             <ul className="flex flex-col gap-1 text-sm text-neutral-700 dark:text-neutral-300">
-              <li>{summary.created} new player{summary.created === 1 ? '' : 's'}</li>
+              <li>{summary.created} new game{summary.created === 1 ? '' : 's'}</li>
               <li>{summary.updated} updated</li>
               <li>{summary.unchanged} unchanged</li>
               {summary.missingExternalKeys.length > 0 && (
                 <li className="text-amber-700 dark:text-amber-400">
-                  {summary.missingExternalKeys.length} existing player
+                  {summary.missingExternalKeys.length} existing game
                   {summary.missingExternalKeys.length === 1 ? '' : 's'} not in this file (kept, not
-                  deleted): {summary.missingExternalKeys.join(', ')}
+                  deleted)
                 </li>
               )}
             </ul>
